@@ -1,9 +1,12 @@
 // HTTP Server - Import and initialize server
+const express = require("express");
+const app = express();
 // const http = require('http');
 // const server = http.createServer((req, res) => {
 
 // STEP 1: Import and initialize server, configure for JSON requests
 // Your code here
+app.use(express.json());
 
 // HTTP Server: Handle route with param (/users/:userId) sending plain-text response
 //     let reqBody = "";
@@ -15,6 +18,16 @@
 //         if (reqBody) {
 //             req.body = JSON.parse(reqBody);
 //         }
+app.get("/users/:userId", (req, res) => {
+	res
+		.status(200)
+		.setHeader("Content-Type", "text/plain")
+		.send(`User details for userId: ${req.params.userId}`);
+});
+
+app.get("/*", (req, res) => {
+	res.status(404).send("404 Not Found");
+});
 //
 //         // GET /users/:userId
 //         if (req.method === 'GET' && req.url.startsWith('/users/')) {
@@ -47,3 +60,5 @@
 
 // STEP 1: Set port and listen for requests
 // Your code here
+const port = 5000;
+app.listen(port, () => console.log(`Server Is Live On Port: ${port}`));
